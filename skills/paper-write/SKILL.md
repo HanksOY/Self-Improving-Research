@@ -489,6 +489,7 @@ After drafting all sections, run five sequential audit passes. Based on Sainani'
 Also remove redundancies: "completely eliminate" → "eliminate", "future plans" → "plans", "unexpected surprise" → "surprise".
 
 Remove AI-isms: delve, pivotal, landscape, tapestry, underscore, noteworthy, intriguingly.
+This is a light first pass. The full, guarded de-AI pass is `/paper-humanize`: it runs on the finished text after the improvement loop (`/paper-writing` Phase 5.4). When you use `/paper-write` alone, run `/paper-humanize "paper/"` after the last edit.
 
 **Pass 2: Active Voice and Verb Vitality** — Identify who did what.
 

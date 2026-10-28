@@ -47,3 +47,6 @@ patent/
 
 # ARIS runtime state (per-project traces, caches, installed-skills manifest)
 .aris/
+
+# Conversation logs (/conversation-logger) — personal session history
+conversation-logs/

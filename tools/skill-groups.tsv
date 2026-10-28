@@ -34,6 +34,7 @@ group	patent	专利	发明构建、权利要求、实施例到各国格式的专
 group	meta-utils	元工具与杂项	skill 语料自优化、通知、面试准备等
 skill	arxiv	lit-search	-	arXiv 搜索/下载/入库
 skill	alphaxiv	lit-search	-	单篇论文快速解读(AlphaXiv 摘要)
+skill	pdf-to-markdown	lit-search	-	本地 PDF 批量转 Markdown(OpenDataLoader)
 skill	deepxiv	lit-search	-	DeepXiv 渐进式论文阅读
 skill	semantic-scholar	lit-search	-	正式发表论文检索(引用数/venue)
 skill	openalex	lit-search	-	OpenAlex 引用图谱与机构元数据
@@ -64,6 +65,7 @@ skill	proof-checker	theory	render-html	证明缺口审查与修复
 skill	proof-orchestrator	theory	-	本地优先的证明编排、人工 GPT Pro 交接与显式 DeepSeek 复审
 skill	lean-formalize	theory	-	按需 Lean 形式化、续写与审计：保真原命题、接通证明并核查最终定理
 skill	experiment-plan	experiments	-	claim 驱动的实验路线图
+skill	inspect-idea-stage	ideation	-	W1 idea 阶段只读完成度检查
 skill	experiment-bridge	experiments	run-experiment,experiment-queue,monitor-experiment,training-check,ablation-planner	W1.5:从实验计划到跑通初步结果
 skill	research-implement-feature	experiments	-	从"给我实现 X"直接开建：先跑通脊柱再逐级加功能，全程申报假设
 skill	experiment-queue	experiments	-	SSH 批量实验队列(OOM 重试)
@@ -71,15 +73,19 @@ skill	run-experiment	experiments	-	部署运行实验(本地/远程/云 GPU)
 skill	monitor-experiment	experiments	-	监控实验进度收集结果
 skill	analyze-results	experiments	-	结果统计分析与对比表
 skill	training-check	experiments	-	训练健康度检查
+skill	hparam-sweep	experiments	-	自动超参搜索(Optuna / W&B Sweeps)
+skill	llm-finetune	experiments	-	LLM 微调配方(LoRA/QLoRA/SFT/DPO + 数据校验)
+skill	checkpoint-eval	experiments	-	checkpoint 登记、评测、选择与清理
 skill	system-profile	experiments	-	GPU 环境画像(跨机器复用)
 skill	dse-loop	experiments	-	设计空间探索自动调参循环
 skill	qzcli	experiments	-	启智平台 qzcli 作业管理
 skill	vast-gpu	experiments	-	Vast.ai 租卡跑实验
 skill	serverless-modal	experiments	-	Modal 无服务器 GPU
 skill	experiment-audit	experiments	-	实验诚实度审计(防假结果)
+skill	inspect-experiment-stage	experiments	-	W1.5 实验阶段只读完成度检查
 skill	result-to-claim	experiments	-	结果能支撑什么 claim 的裁决
 skill	ablation-planner	experiments	-	消融实验规划
-skill	paper-writing	paper-core	paper-plan,paper-write,paper-compile,paper-figure,figure-spec,proof-checker,paper-claim-audit,citation-audit,auto-paper-improvement-loop,integrity-forensics,kill-argument	W3:从报告到投稿级 PDF 全流程
+skill	paper-writing	paper-core	paper-plan,paper-write,paper-compile,paper-figure,figure-spec,proof-checker,paper-claim-audit,citation-audit,auto-paper-improvement-loop,paper-humanize,integrity-forensics,kill-argument	W3:从报告到投稿级 PDF 全流程
 skill	paper-plan	paper-core	-	论文大纲生成
 skill	paper-write	paper-core	-	按大纲逐节写 LaTeX
 skill	paper-compile	paper-core	-	LaTeX 编译修错出 PDF
@@ -88,7 +94,9 @@ skill	citation-audit	paper-core	render-html	引用真实性/正确性核查
 skill	citation-crosscheck	paper-core	-	双盲 bib-vs-web 字段级交叉核对（作者顺序/年份/venue/DOI）
 skill	paper-claim-audit	paper-core	render-html	论文数字与原始结果核对
 skill	integrity-forensics	paper-core	-	投稿前诚信取证扫描
+skill	inspect-paper-stage	paper-core	-	W2/W3 评审与论文阶段只读完成度检查
 skill	auto-paper-improvement-loop	paper-core	proof-checker,paper-claim-audit,kill-argument	论文 review→润色→重编译循环
+skill	paper-humanize	paper-core	-	去 AI 味(学术语体 + 数字/引用守卫)
 skill	writing-systems-papers	paper-core	-	系统方向论文写作要领
 skill	specification-writing	paper-core	embodiment-description,figure-description	技术规格文档撰写
 skill	overleaf-sync	paper-core	-	本地↔Overleaf 双向同步
@@ -104,6 +112,7 @@ skill	paper-slides	paper-visuals	-	会议幻灯(beamer→PDF+PPTX)
 skill	paper-talk	paper-visuals	paper-slides,slides-polish	演讲稿+幻灯一体
 skill	slides-polish	paper-visuals	-	幻灯片打磨
 skill	rebuttal	submission	render-html	W4:审稿意见解析与安全回复
+skill	inspect-post-paper	submission	-	W4-W6 rebuttal/重投/talk 只读完成度检查
 skill	resubmit-pipeline	submission	auto-paper-improvement-loop,proof-checker,paper-claim-audit,citation-audit,kill-argument,paper-compile,integrity-forensics	被拒后重投全流程
 skill	grant-proposal	submission	research-lit,novelty-check,research-review	基金申请书(NSFC/NSF/科研費等)
 skill	patent-pipeline	patent	prior-art-search,patent-novelty-check,invention-structuring,claims-drafting,specification-writing,patent-review,jurisdiction-format	专利撰写全流程
@@ -118,4 +127,5 @@ skill	patent-novelty-check	patent	-	专利新颖性核查
 skill	meta-optimize	meta-utils	-	skill 语料自优化提案
 skill	meta-apply	meta-utils	meta-optimize	落地已批准的语料补丁
 skill	feishu-notify	meta-utils	-	飞书通知
+skill	conversation-logger	meta-utils	-	每 20 轮记录对话(用户原文 + 回复压缩)
 skill	interview-cheatsheet	meta-utils	-	ML/LLM 面试速查手册生成

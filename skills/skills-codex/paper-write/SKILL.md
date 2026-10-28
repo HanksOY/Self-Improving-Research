@@ -495,6 +495,8 @@ De-AI patterns from [kgraph57/paper-writer-skill](https://github.com/kgraph57/pa
 6. **No significance inflation** — groundbreaking, revolutionary, paradigm shift
 7. **No formulaic structures** — vary sentence openings and transitions
 
+This is a light first pass. The full, guarded de-AI pass is `/paper-humanize`: it runs on the finished text after the improvement loop (`/paper-writing` Phase 5.4). When you use `/paper-write` alone, run `/paper-humanize "paper/"` after the last edit.
+
 ## Acknowledgements
 
 Writing methodology adapted from [Research-Paper-Writing-Skills](https://github.com/Master-cai/Research-Paper-Writing-Skills) (CCF award-winning methodology). Citation verification from [claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar) and [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills). De-AI polish from [kgraph57/paper-writer-skill](https://github.com/kgraph57/paper-writer-skill). Backup mechanism from [baoyu-skills](https://github.com/jimliu/baoyu-skills).

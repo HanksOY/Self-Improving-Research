@@ -22,11 +22,11 @@ Orchestrate a complete paper writing workflow for: **$ARGUMENTS**
 
 ## Overview
 
-This skill chains five sub-skills into a single automated pipeline:
+This skill chains six sub-skills into a single automated pipeline:
 
 ```
-/paper-plan → /paper-figure → /paper-write → /paper-compile → /auto-paper-improvement-loop
-  (outline)     (plots)        (LaTeX)        (build PDF)       (review & polish ×2)
+/paper-plan → /paper-figure → /paper-write → /paper-compile → /auto-paper-improvement-loop → /paper-humanize
+  (outline)     (plots)        (LaTeX)        (build PDF)       (review & polish ×2)            (de-AI, guarded)
 ```
 
 Each phase builds on the previous one's output. The final deliverable is a polished, reviewed `paper/` directory with LaTeX source and compiled PDF.
@@ -399,7 +399,7 @@ If `— style-ref: <source>` was passed in `$ARGUMENTS` and the helper succeeded
 - Build `references.bib` from citation scaffolding
 - Clean stale files from previous section structures
 - Automated bib cleaning (remove uncited entries)
-- De-AI polish (remove "delve", "pivotal", "landscape"...)
+- Light de-AI word cleanup (the full pass is Phase 5.4 `/paper-humanize`)
 - GPT-6-Astra reviews each section for quality
 
 **Output:** `paper/` directory with `main.tex`, `sections/*.tex`, `references.bib`, `math_commands.tex`.
@@ -514,6 +514,33 @@ If `— style-ref: <source>` was passed in `$ARGUMENTS` and the helper succeeded
 **Output:** Three PDFs for comparison + `PAPER_IMPROVEMENT_LOG.md`.
 
 **Format check** (included in improvement loop Step 8): After final recompilation, auto-detect and fix overfull hboxes (content exceeding margins), verify page count vs venue limit, and ensure compact formatting. Location-aware thresholds: any main-body overfull blocks completion regardless of size; appendix overfulls block only if >10pt; bibliography overfulls block only if >20pt.
+
+### Phase 5.4: Humanize Pass (remove AI writing tells)
+
+Run after the improvement loop, because its fixes re-introduce AI tells, and
+before the final audits, so they check the prose that ships:
+
+```
+/paper-humanize "paper/"
+```
+
+Forward `— voice: <file>` if the user supplied a sample of their own writing
+(never the `— style-ref` cache). The skill snapshots every `sections/*.tex`,
+edits prose only, and runs its deterministic guard: any changed number,
+equation, citation, `\ref` or `\label` fails the guard and the file is fixed or
+restored. Claims it softens or cannot back are listed under "Flagged for
+/paper-claim-audit" in `paper/.aris/humanize/<ts>/HUMANIZE_REPORT.md` — pass
+that list to Phase 5.5.
+
+Then **recompile** so the PDF matches the edited sources:
+
+```
+/paper-compile "paper/"
+```
+
+Skip only when the user passes `— humanize: false`. A guard `FAIL` that the skill
+could not fix leaves those files restored to their Phase 5 text; note them in the
+Final Report.
 
 ### Phase 5.5: Final Paper Claim Audit (MANDATORY submission gate)
 

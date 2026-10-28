@@ -1,6 +1,6 @@
 # ARIS Skills Catalog
 
-Every skill that ships with ARIS, grouped by role. **87 skills** as of the
+Every skill that ships with ARIS, grouped by role. **97 skills** as of the
 latest update; new skills land via PR and get added to the table below.
 
 - Each `Skill` link goes to the canonical `SKILL.md` (the LLM-readable spec).
@@ -58,6 +58,7 @@ Paper retrieval, summarization, novelty verification.
 | [`/openalex`](../skills/openalex/SKILL.md) | OpenAlex API search — 250M+ open citation graph, institutional affiliations, funding data | `pip install requests` |
 | [`/gemini-search`](../skills/gemini-search/SKILL.md) | Gemini-driven literature discovery — decomposes topics into sub-problems, aliases, variants | `gemini-cli` v0.40+ |
 | [`/alphaxiv`](../skills/alphaxiv/SKILL.md) | Quick single-paper lookup via [AlphaXiv](https://www.alphaxiv.org) — three-tier fallback (overview → markdown → LaTeX source) | None |
+| [`/pdf-to-markdown`](../skills/pdf-to-markdown/SKILL.md) | Batch-convert local PDFs to structure-preserving Markdown with [OpenDataLoader PDF](https://github.com/opendataloader-project/opendataloader-pdf) — one batch call, per-file verification, `conversion-status.csv`; standard or hybrid (docling) mode | Java 11+, `pip install opendataloader-pdf` |
 | [`/comm-lit-review`](../skills/comm-lit-review/SKILL.md) | Communications-domain literature review with Claude-style knowledge-base-first retrieval — wireless / networking / satellite / Wi-Fi / cellular | None |
 | [`/novelty-check`](../skills/novelty-check/SKILL.md) | Verify a research idea is novel against recent literature — multi-source search + cross-model verification + closest-prior-work table | Codex MCP |
 
@@ -97,6 +98,9 @@ GPU job submission, scheduling, monitoring, profiling.
 | [`/serverless-modal`](../skills/serverless-modal/SKILL.md) | Run GPU workloads on [Modal](https://modal.com) — zero-config serverless, auto scale-to-zero | `pip install modal` + Modal account |
 | [`/qzcli`](../skills/qzcli/SKILL.md) | Manage GPU compute jobs on the Qizhi (启智) platform via `qzcli` (kubectl-style CLI) | `qzcli` installed |
 | [`/training-check`](../skills/training-check/SKILL.md) | Periodically poll W&B metrics during training — catch NaN, loss divergence, idle GPUs early | W&B account |
+| [`/hparam-sweep`](../skills/hparam-sweep/SKILL.md) | Automatic hyperparameter search from one JSON spec — Optuna (resumable SQLite study, one worker per GPU, median / Hyperband pruning) or W&B Sweeps; validation-only objective, multi-seed confirmation of the best config, importance + search-edge report | `optuna` or `wandb` |
+| [`/llm-finetune`](../skills/llm-finetune/SKILL.md) | LLM fine-tuning recipe — LoRA / QLoRA / full SFT / DPO chosen by GPU budget; deterministic dataset validate / convert / dedupe-split / train–eval contamination check; TRL + PEFT script checked against installed versions | `transformers`, `trl`, `peft` (+ `bitsandbytes` for QLoRA) |
+| [`/checkpoint-eval`](../skills/checkpoint-eval/SKILL.md) | Checkpoint registry with quick hashes — validation eval of every checkpoint, selection on validation only, test split run once, weight-change verification, dry-run-first retention (best-K / last-N / pinned kept) | Python stdlib + your eval script |
 | [`/system-profile`](../skills/system-profile/SKILL.md) | Profile a target (script / process / GPU / memory / interconnect) with external tools + code instrumentation; produce actionable report | Profiling tools |
 
 ## 🛡️ Review, Audit & Assurance
@@ -114,6 +118,10 @@ Cross-model critique, integrity checking, evidence verification.
 | [`/proof-checker`](../skills/proof-checker/SKILL.md) | Rigorous mathematical proof verification — 20-category issue taxonomy, two-axis severity, side-condition checklists, counterexample red team, proof-obligation ledger | Codex MCP |
 | [`/kill-argument`](../skills/kill-argument/SKILL.md) | Two-thread adversarial review — Thread 1 writes the strongest 200-word rejection memo; Thread 2 (independent) defends point-by-point and surfaces still-unresolved issues | Codex MCP |
 | [`/integrity-forensics`](../skills/integrity-forensics/SKILL.md) | SHA-pinned thin launcher for [Anti-Autoresearch](https://github.com/wanshuiyin/Anti-Autoresearch) — evidence-ledger forensic sweep (46 patterns, deterministic adjudicator) → typed BLOCK/WARN/NO_NEW_BLOCKER gate + append-only obligations ledger; default pre-submission self-audit in `/paper-writing` | git, Codex MCP (via upstream) |
+| [`/inspect-idea-stage`](../skills/inspect-idea-stage/SKILL.md) | Read-only W1 completion inspector — idea report sections, research contract, refine state, experiment plan + tracker, `idea_discovery_gate` evaluation; PASS/WARN/FAIL table with file evidence, never judges idea quality | None |
+| [`/inspect-experiment-stage`](../skills/inspect-experiment-stage/SKILL.md) | Read-only W1.5 completion inspector — tracker ↔ log reconciliation, results provenance, experiment-audit presence and freshness, claim verdict coverage, `evidence_check.py` re-run | None |
+| [`/inspect-paper-stage`](../skills/inspect-paper-stage/SKILL.md) | Read-only W2 + W3 completion inspector — legal review-loop termination, LaTeX/PDF/compile cleanliness, round snapshots, mandatory audits via `verify_paper_audits.sh` (output kept out of `paper/`) | LaTeX toolchain (for the compile log) |
+| [`/inspect-post-paper`](../skills/inspect-post-paper/SKILL.md) | Read-only W4 / W5 / W6 completion inspector — rebuttal coverage / provenance / commitment gates and measured character budget, resubmit ledger + frozen-source hashes, talk export integrity | None |
 
 ## 📝 Paper Writing & Figures
 
@@ -131,6 +139,7 @@ LaTeX generation, figure / diagram production, prose polishing.
 | [`/pixel-art`](../skills/pixel-art/SKILL.md) | Generate pixel-art SVG illustrations for READMEs, docs, slides | None |
 | [`/paper-compile`](../skills/paper-compile/SKILL.md) | Compile LaTeX paper to PDF — auto-fix errors, submission readiness checks | LaTeX (`latexmk`, `pdfinfo`) |
 | [`/auto-paper-improvement-loop`](../skills/auto-paper-improvement-loop/SKILL.md) | 2-round content review + format check — typical 4 / 10 → 8.5 / 10 score lift. `--edit-whitelist` mode for resubmits | Codex MCP |
+| [`/paper-humanize`](../skills/paper-humanize/SKILL.md) | Remove AI writing tells from finished academic prose (paper, rebuttal, proposal) while keeping calibrated hedging and claim–evidence discipline; a deterministic guard fails on any changed number, equation, citation or `\ref`. `/paper-writing` Phase 5.4 | None (Python stdlib guard) |
 | [`/proof-writer`](../skills/proof-writer/SKILL.md) | Draft rigorous mathematical proofs for ML / AI theory — theorems, lemmas, propositions, corollaries; fill in missing steps; formalize sketches | None |
 | [`/writing-systems-papers`](../skills/writing-systems-papers/SKILL.md) | Paragraph-level structural blueprint for 10-12 page systems papers — page allocation, paragraph templates, writing patterns for OSDI / SOSP / ASPLOS / NSDI / EuroSys | None |
 | [`/grant-proposal`](../skills/grant-proposal/SKILL.md) | Structured grant proposal drafting — KAKENHI (JP), NSF (US), NSFC (CN including 面上 / 青年 / 优青 / 杰青 / 海优 / 重点), ERC (EU), DFG (DE), more | None |
@@ -179,6 +188,7 @@ Cross-cutting infrastructure used by other skills or run on demand.
 | [`/render-html`](../skills/render-html/SKILL.md) | Render ARIS Markdown / JSON artifacts into reviewed single-file HTML views for human reading | Python stdlib; Codex MCP for review gate |
 | [`/overleaf-sync`](../skills/overleaf-sync/SKILL.md) | Two-way sync between local paper directory and Overleaf project via Overleaf Git bridge (Premium) — `setup` / `pull` (diff protocol) / `push` (confirmation gate) / `status` | Overleaf Premium + macOS Keychain |
 | [`/feishu-notify`](../skills/feishu-notify/SKILL.md) | Send notifications to Feishu / Lark — push-only (webhook) or interactive (bidirectional) modes. Off by default | Feishu webhook URL |
+| [`/conversation-logger`](../skills/conversation-logger/SKILL.md) | Record the session to `conversation-logs/` every 20 rounds — user messages verbatim (copied from the transcript by a script), agent replies compressed to one plain-English line per round. Claude Code Stop / SessionEnd hook; Codex via an `AGENTS.md` rule | Python stdlib; one-time hook in `settings.json` |
 | [`/interview-cheatsheet`](../skills/interview-cheatsheet/SKILL.md) | Generate long-form Chinese ML / LLM interview-prep cheat sheets with formulas, code, Q&A, review, and HTML output | Codex MCP, Python |
 
 ---
